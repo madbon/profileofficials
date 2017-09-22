@@ -6,6 +6,7 @@ use backend\models\Tbllevelbyposition;
 use backend\models\Tblpositions;
 use backend\models\Tblregion;
 use backend\models\Tblprovince;
+use backend\models\tblcitymun;
 use yii\helpers\ArrayHelper;
 
 
@@ -32,7 +33,7 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'LEVELPLACE_ID')->dropDownList($levelbyplace) ?>
 
     <?= $form->field($model, 'LEVELPOSIT_ID')->dropDownList(
-                            ArrayHelper::map( Tbllevelbyposition::find()->all(), 'LEVELPOSIT_ID','LEVELPOSIT_NAME'),
+                            ArrayHelper::map($querylevelbyposition, 'LEVELPOSIT_ID','LEVELPOSIT_NAME'),
                             [
                                 'prompt'=>'Select level by position',
                                 'onchange'=>'
@@ -42,10 +43,9 @@ use yii\helpers\ArrayHelper;
                             ]);?>
 
     <?= $form->field($model, 'POSIT_ID')->dropDownList(
-                            ArrayHelper::map( Tblpositions::find()->all(), 'POSIT_ID','POSIT_NAME'),
+                            ArrayHelper::map( $queryposition, 'POSIT_ID','POSIT_NAME'),
                             [
                                 'prompt'=>'Select  Position Title',
-                                
                                 
                             ]);?>
 
@@ -55,23 +55,37 @@ use yii\helpers\ArrayHelper;
             ]); ?>
 
     <?= $form->field($model, 'REGION_C')->dropDownList(
-                            ArrayHelper::map( Tblregion::find()->all(), 'REGION_C','REGION_M'),
+                            ArrayHelper::map( $queryregion, 'REGION_C','REGION_M'),
                             [
                                 'prompt'=>'Select Region',
                                 'onchange'=>'
                                     $.post("index.php?r=tblprovince/lists&id='.'"+$(this).val(), function(data) {
                                         $("#tblofficials-province_c").html(data);
-                                    });'
+                                    });
+                                    $.post("index.php?r=tblcitymun/lists&id='.'"+$(this).val(), function(data) {
+                                        $("#tblofficials-citymun_c").html(data);
+                                    });
+
+                                    '
                             ]);?>
 
     <?= $form->field($model, 'PROVINCE_C')->dropDownList(
-                            ArrayHelper::map( Tblprovince::find()->all(), 'PROVINCE_C','LGU_M'),
+                            ArrayHelper::map( $queryprovince, 'PROVINCE_C','LGU_M'),
                             [
                                 'prompt'=>'Select  Province',
+                                'onchange'=>'
+                                    $.post("index.php?r=tblcitymun/lists&id='.'"+$(this).val(), function(data) {
+                                         $("#tblofficials-citymun_c").html(data);
+                                    });
 
+                                    '
                             ]);?>
 
-    <?= $form->field($model, 'CITYMUN_C')->textInput() ?>
+    <?= $form->field($model, 'CITYMUN_C')->dropDownList( ArrayHelper::map( $querycitymun, 'CITYMUN_C','LGU_M'),
+                            [
+                                'prompt'=>'Select  Position Title',
+                                
+                            ]);?>
 
 
     <div class="form-group">

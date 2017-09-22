@@ -17,8 +17,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'levelbyplace' => $levelbyplace,
-        'levelbyposition' => $levelbyposition,
         'party' => $party,
+        'queryposition'=>$queryposition,
+        'arrlevelbyposition' => $arrlevelbyposition,
+        'querylevelbyposition' => $querylevelbyposition,
+        'queryregion' => $queryregion,
+        'queryprovince' => $queryprovince,
+        'querycitymun' => $querycitymun,
     ]) ?>
 
 </div>

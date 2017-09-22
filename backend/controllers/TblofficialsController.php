@@ -8,6 +8,10 @@ use backend\models\TblofficialsSearch;
 use backend\models\Tbllevelbyplace;
 use backend\models\Tbllevelbyposition;
 use backend\models\Tblparty;
+use backend\models\Tblpositions;
+use backend\models\Tblregion;
+use backend\models\Tblprovince;
+use backend\models\Tblcitymun;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -69,9 +73,12 @@ class TblofficialsController extends Controller
         $model = new Tblofficials();
 
         $levelbyplace = Tbllevelbyplace::find()->all();
-        $levelbyposition = Tbllevelbyposition::find()->all();
+        $querylevelbyposition = Tbllevelbyposition::find()->all();
         $party = Tblparty::find()->all();
-        
+        $queryposition = Tblpositions::find()->all();
+        $queryregion = Tblregion::find()->all();
+        $queryprovince = Tblprovince::find()->all();
+        $querycitymun = Tblcitymun::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->OFFICIAL_ID]);
@@ -81,8 +88,13 @@ class TblofficialsController extends Controller
             return $this->render('create', [
                 'model' => $model,
                 'levelbyplace'=>ArrayHelper::map($levelbyplace,'LEVELPLACE_ID','LEVELPLACE_NAME'),
-                'levelbyposition'=>ArrayHelper::map($levelbyposition,'LEVELPOSIT_ID','LEVELPOSIT_NAME'),
+                'arrlevelbyposition'=>ArrayHelper::map($querylevelbyposition,'LEVELPOSIT_ID','LEVELPOSIT_NAME'),
+                'querylevelbyposition' => $querylevelbyposition,
                 'party'=>ArrayHelper::map($party,'PARTY_ID','PARTY_NAME'),
+                'queryposition'=> $queryposition,
+                'queryregion'=> $queryregion,
+                'queryprovince' => $queryprovince,
+                'querycitymun' => $querycitymun,
             ]);
         }
     }
