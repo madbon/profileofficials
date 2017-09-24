@@ -62,30 +62,45 @@ use yii\helpers\ArrayHelper;
                                     $.post("index.php?r=tblprovince/lists&id='.'"+$(this).val(), function(data) {
                                         $("#tblofficials-province_c").html(data);
                                     });
-                                    $.post("index.php?r=tblcitymun/lists&id='.'"+$(this).val(), function(data) {
-                                        $("#tblofficials-citymun_c").html(data);
-                                    });
-
+                                  
                                     '
                             ]);?>
+    <?=
+        $this->registerJs(' $("#tblofficials-region_c").change(function(){
+                    var valuereg = $("#tblofficials-region_c").val();
+                    var valueprov =  $("#tblofficials-province_c").val()
+                    $.post(
+                    "'.Yii::$app->urlManager->createUrl(["tblcitymun/getcitymun"]).'",
+                     { valuereg:valuereg,
+                       valueprov:valueprov },
+                     function(data) {
+                       $( "#tblofficials-citymun_c").html(data);
+                    }); });');
+        ?>
 
     <?= $form->field($model, 'PROVINCE_C')->dropDownList(
                             ArrayHelper::map( $queryprovince, 'PROVINCE_C','LGU_M'),
                             [
                                 'prompt'=>'Select  Province',
-                                'onchange'=>'
-                                    $.post("index.php?r=tblcitymun/lists&id='.'"+$(this).val(), function(data) {
-                                         $("#tblofficials-citymun_c").html(data);
-                                    });
-
-                                    '
+                               
                             ]);?>
 
-    <?= $form->field($model, 'CITYMUN_C')->dropDownList( ArrayHelper::map( $querycitymun, 'CITYMUN_C','LGU_M'),
-                            [
-                                'prompt'=>'Select  Position Title',
-                                
-                            ]);?>
+ <?=
+        $this->registerJs(' $("#tblofficials-province_c").change(function(){
+                    var valuereg = $("#tblofficials-region_c").val();
+                    var valueprov =  $("#tblofficials-province_c").val()
+                    $.post(
+                    "'.Yii::$app->urlManager->createUrl(["tblcitymun/getcitymun"]).'",
+                     { valuereg:valuereg,
+                       valueprov:valueprov },
+                     function(data) {
+                       $( "#tblofficials-citymun_c").html(data);
+                    }); });');
+        ?>
+
+    <?= $form->field($model, 'CITYMUN_C')->dropDownList( ArrayHelper::map( $querycitymun, 'CITYMUN_C','LGU_M')
+                            );?>
+
 
 
     <div class="form-group">
