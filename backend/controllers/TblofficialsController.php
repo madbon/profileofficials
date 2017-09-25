@@ -16,11 +16,14 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
 /**
  * TblofficialsController implements the CRUD actions for Tblofficials model.
  */
 class TblofficialsController extends Controller
 {
+
+
     /**
      * @inheritdoc
      */
@@ -36,6 +39,8 @@ class TblofficialsController extends Controller
         ];
     }
 
+
+
     /**
      * Lists all Tblofficials models.
      * @return mixed
@@ -44,10 +49,43 @@ class TblofficialsController extends Controller
     {
         $searchModel = new TblofficialsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Tblofficials();
+        $queryregion = Tblregion::find()->all();
+
+        $searchModel1 = new TblofficialsSearch();
+        $dataProvider1 = $searchModel1->search(Yii::$app->request->queryParams);
+
+
+        $query1 = TblofficialsSearch::find()->where(['>','YEAR(CURRENT_DATE) - YEAR(BIRTHDATE)', '30'])->andWhere(['=', 'POSIT_ID', '1'])->orWhere(['=', 'POSIT_ID', '4'])->orWhere(['=', 'POSIT_ID', '7'])->asArray()->all();
+        
+
+        $countOfficials = TblofficialsSearch::find()
+            ->where(['>',YEAR(CURRENT_DATE) - YEAR($model->BIRTHDATE), '30'])
+            ->andWhere(['=', 'POSIT_ID', '1'])
+            ->orWhere(['=', 'POSIT_ID', '4'])
+            ->orWhere(['=', 'POSIT_ID', '7'])
+            ->count();
+
+
+
+        // $dataProvider1 = new ActiveDataProvider([
+        //             'query' => $query1,
+        //             'pagination' => [ 'pageSize' => 5 ],    // data rows to show
+        //             'sort' => [                             // Sorting of data to Descending order
+        //                 'defaultOrder' => [                
+        //                     'AGE' => SORT_ASC,    // Sort by column_name BOOKCOVER_ID 
+        //                 ],
+        //             ],
+        //         ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
+            'queryregion'=> $queryregion,
+            'searchModel1'=>$searchModel1,
+            'dataProvider1'=>$dataProvider1,
+            'countOfficials' => $countOfficials,
         ]);
     }
 
@@ -108,12 +146,27 @@ class TblofficialsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $levelbyplace = Tbllevelbyplace::find()->all();
+        $querylevelbyposition = Tbllevelbyposition::find()->all();
+        $party = Tblparty::find()->all();
+        $queryposition = Tblpositions::find()->all();
+        $queryregion = Tblregion::find()->all();
+        $queryprovince = Tblprovince::find()->all();
+        $querycitymun = Tblcitymun::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->OFFICIAL_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'levelbyplace'=>ArrayHelper::map($levelbyplace,'LEVELPLACE_ID','LEVELPLACE_NAME'),
+                'arrlevelbyposition'=>ArrayHelper::map($querylevelbyposition,'LEVELPOSIT_ID','LEVELPOSIT_NAME'),
+                'querylevelbyposition' => $querylevelbyposition,
+                'party'=>ArrayHelper::map($party,'PARTY_ID','PARTY_NAME'),
+                'queryposition'=> $queryposition,
+                'queryregion'=> $queryregion,
+                'queryprovince' => $queryprovince,
+                'querycitymun' => $querycitymun,
             ]);
         }
     }
@@ -130,6 +183,8 @@ class TblofficialsController extends Controller
 
         return $this->redirect(['index']);
     }
+
+   
 
     /**
      * Finds the Tblofficials model based on its primary key value.

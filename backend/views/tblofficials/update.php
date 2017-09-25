@@ -16,6 +16,14 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'levelbyplace' => $levelbyplace,
+        'party' => $party,
+        'queryposition'=>$queryposition,
+        'arrlevelbyposition' => $arrlevelbyposition,
+        'querylevelbyposition' => $querylevelbyposition,
+        'queryregion' => $queryregion,
+        'queryprovince' => $queryprovince,
+        'querycitymun' => $querycitymun,
     ]) ?>
 
 </div>

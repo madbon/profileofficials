@@ -108,4 +108,28 @@ class Tblofficials extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Tbllevelbyposition::className(), ['LEVELPOSIT_ID' => 'LEVELPOSIT_ID']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getREGION()
+    {
+        return $this->hasOne(Tblregion::className(), ['REGION_C' => 'REGION_C']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPROVINCE()
+    {
+        return $this->hasOne(Tblprovince::className(), ['PROVINCE_C' => 'PROVINCE_C']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCITYMUN()
+    {
+        return $this->hasOne(Tblcitymun::className(), ['REGION_C' => 'REGION_C','PROVINCE_C' => 'PROVINCE_C','CITYMUN_C'=>'CITYMUN_C']);
+    }
 }
