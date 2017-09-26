@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Tblofficials;
 use backend\models\TblofficialsSearch;
-use backend\models\Tbllevelbyplace;
 use backend\models\Tbllevelbyposition;
 use backend\models\Tblparty;
 use backend\models\Tblpositions;
@@ -17,12 +16,16 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
+use yii\helpers\BaseStringHelper;
 /**
  * TblofficialsController implements the CRUD actions for Tblofficials model.
  */
 class TblofficialsController extends Controller
 {
 
+    function getFloatFromString($string) {
+     return (float) preg_replace('/[^0-9.]/', '', $string);
+    }
 
     /**
      * @inheritdoc
@@ -54,29 +57,46 @@ class TblofficialsController extends Controller
 
         $searchModel1 = new TblofficialsSearch();
         $dataProvider1 = $searchModel1->search(Yii::$app->request->queryParams);
+        $bday = $model->BIRTHDATE;
+        $curYear = date('Y');
+        $curMonth = date('m');
+        $curDay = date('d');
+        // $curDate = strotime($curYear."-". $curMonth."-" .$curDay);
+        $diff30 = $curYear - 30;
+        $diff50 = $curYear - 50;
 
 
-        $query1 = TblofficialsSearch::find()->where(['>','YEAR(CURRENT_DATE) - YEAR(BIRTHDATE)', '30'])->andWhere(['=', 'POSIT_ID', '1'])->orWhere(['=', 'POSIT_ID', '4'])->orWhere(['=', 'POSIT_ID', '7'])->asArray()->all();
+        // -------- Governors and Mayors Age is BELOW 30
+        $queryCountGovernor= TblofficialsSearch::find()->where(['>','DATE_FORMAT(BIRTHDATE,"%Y")',$diff30])->andWhere(['=', 'POSIT_ID', '1'])->count(); // GOVERNORS
+        $govResultFloat = TblofficialsController::getFloatFromString($queryCountGovernor);
         
+        $queryCountCityMayor = TblofficialsSearch::find()->where(['>','DATE_FORMAT(BIRTHDATE,"%Y")',$diff30])->andWhere(['=', 'POSIT_ID', '4'])->count(); // CITY MAYORS
+        $citymayorResultFloat = TblofficialsController::getFloatFromString($queryCountCityMayor);
+        
+        $queryCountMunMayor = TblofficialsSearch::find()->where(['>','DATE_FORMAT(BIRTHDATE,"%Y")',$diff30])->andWhere(['=', 'POSIT_ID', '7'])->count(); // MUNICIPAL MAYORS
+        $munmayorResultFloat = TblofficialsController::getFloatFromString($queryCountMunMayor);
 
-        $countOfficials = TblofficialsSearch::find()
-            ->where(['>',YEAR(CURRENT_DATE) - YEAR($model->BIRTHDATE), '30'])
-            ->andWhere(['=', 'POSIT_ID', '1'])
-            ->orWhere(['=', 'POSIT_ID', '4'])
-            ->orWhere(['=', 'POSIT_ID', '7'])
-            ->count();
+        // ---------- Governors and Mayors Age is BETWEEN 30 and 50
+        $queryCountGovernorBet = TblofficialsSearch::find()->where(['between','DATE_FORMAT(BIRTHDATE,"%Y")',$diff50,$diff30])->andWhere(['=', 'POSIT_ID', '1'])->count();// GOVERNORS
+        $govResultFloatBet = TblofficialsController::getFloatFromString($queryCountGovernorBet);
+
+        $queryCountCityMayorBet = TblofficialsSearch::find()->where(['between','DATE_FORMAT(BIRTHDATE,"%Y")',$diff50,$diff30])->andWhere(['=', 'POSIT_ID', '4'])->count(); // CITY MAYORS
+        $citymayorResultFloatBet = TblofficialsController::getFloatFromString($queryCountCityMayorBet);
+
+        $queryCountMunMayotBet = TblofficialsSearch::find()->where(['between','DATE_FORMAT(BIRTHDATE,"%Y")',$diff50,$diff30])->andWhere(['=', 'POSIT_ID', '7'])->count();/// MUNICIPAL MAYORS
+        $munmayorResultFloatBet = TblofficialsController::getFloatFromString($queryCountMunMayotBet);
+
+        // ---------- Governors and Mayors Age is BETWEEN 30 and 50
+        $queryCountGovernorAbove = TblofficialsSearch::find()->where(['<','DATE_FORMAT(BIRTHDATE,"%Y")',$diff50])->andWhere(['=', 'POSIT_ID', '1'])->count();// GOVERNORS
+        $govResultFloatAbove = TblofficialsController::getFloatFromString($queryCountGovernorAbove);
+
+        $queryCountCityMayorAbove = TblofficialsSearch::find()->where(['<','DATE_FORMAT(BIRTHDATE,"%Y")',$diff50])->andWhere(['=', 'POSIT_ID', '4'])->count(); // CITY MAYORS
+        $citymayorResultFloatAbove = TblofficialsController::getFloatFromString($queryCountCityMayorAbove);
+
+        $queryCountMunMayorAbove = TblofficialsSearch::find()->where(['<','DATE_FORMAT(BIRTHDATE,"%Y")',$diff50])->andWhere(['=', 'POSIT_ID', '7'])->count();// MUNICIPAL MAYORS
+        $munmayorResultFloatAbove = TblofficialsController::getFloatFromString($queryCountMunMayorAbove);
 
 
-
-        // $dataProvider1 = new ActiveDataProvider([
-        //             'query' => $query1,
-        //             'pagination' => [ 'pageSize' => 5 ],    // data rows to show
-        //             'sort' => [                             // Sorting of data to Descending order
-        //                 'defaultOrder' => [                
-        //                     'AGE' => SORT_ASC,    // Sort by column_name BOOKCOVER_ID 
-        //                 ],
-        //             ],
-        //         ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -85,7 +105,17 @@ class TblofficialsController extends Controller
             'queryregion'=> $queryregion,
             'searchModel1'=>$searchModel1,
             'dataProvider1'=>$dataProvider1,
-            'countOfficials' => $countOfficials,
+            'queryCountGovernor' => $govResultFloat,
+            'queryCountCityMayor' => $citymayorResultFloat,
+            'queryCountMunMayor' => $munmayorResultFloat,
+            'govResultFloatBet' => $govResultFloatBet,
+            'citymayorResultFloatBet' => $citymayorResultFloatBet,
+            'munmayorResultFloatBet' => $munmayorResultFloatBet,
+            'govResultFloatAbove' => $govResultFloatAbove,
+            'citymayorResultFloatAbove' => $citymayorResultFloatAbove,
+            'munmayorResultFloatAbove' => $munmayorResultFloatAbove,
+
+            // 'countOfficials' => $countOfficials,
         ]);
     }
 
@@ -110,7 +140,7 @@ class TblofficialsController extends Controller
     {
         $model = new Tblofficials();
 
-        $levelbyplace = Tbllevelbyplace::find()->all();
+        // $levelbyplace = Tbllevelbyplace::find()->all();
         $querylevelbyposition = Tbllevelbyposition::find()->all();
         $party = Tblparty::find()->all();
         $queryposition = Tblpositions::find()->all();
@@ -125,7 +155,6 @@ class TblofficialsController extends Controller
           
             return $this->render('create', [
                 'model' => $model,
-                'levelbyplace'=>ArrayHelper::map($levelbyplace,'LEVELPLACE_ID','LEVELPLACE_NAME'),
                 'arrlevelbyposition'=>ArrayHelper::map($querylevelbyposition,'LEVELPOSIT_ID','LEVELPOSIT_NAME'),
                 'querylevelbyposition' => $querylevelbyposition,
                 'party'=>ArrayHelper::map($party,'PARTY_ID','PARTY_NAME'),
@@ -159,7 +188,6 @@ class TblofficialsController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'levelbyplace'=>ArrayHelper::map($levelbyplace,'LEVELPLACE_ID','LEVELPLACE_NAME'),
                 'arrlevelbyposition'=>ArrayHelper::map($querylevelbyposition,'LEVELPOSIT_ID','LEVELPOSIT_NAME'),
                 'querylevelbyposition' => $querylevelbyposition,
                 'party'=>ArrayHelper::map($party,'PARTY_ID','PARTY_NAME'),

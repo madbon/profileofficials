@@ -43,13 +43,12 @@ class Tblofficials extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['FIRSTNAME', 'MIDDLENAME', 'LASTNAME', 'BIRTHDATE', 'AGE', 'LEVELPLACE_ID', 'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'required'],
-            [['LEVELPLACE_ID', 'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'integer'],
+            [['FIRSTNAME', 'MIDDLENAME', 'LASTNAME', 'BIRTHDATE',  'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'required'],
+            [[ 'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'integer'],
             [['DATECREATED'], 'safe'],
             [['FIRSTNAME', 'MIDDLENAME', 'LASTNAME', 'BIRTHDATE', 'AGE'], 'string', 'max' => 50],
             [['POSIT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Tblpositions::className(), 'targetAttribute' => ['POSIT_ID' => 'POSIT_ID']],
             [['PARTY_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Tblparty::className(), 'targetAttribute' => ['PARTY_ID' => 'PARTY_ID']],
-            [['LEVELPLACE_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Tbllevelbyplace::className(), 'targetAttribute' => ['LEVELPLACE_ID' => 'LEVELPLACE_ID']],
             [['LEVELPOSIT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Tbllevelbyposition::className(), 'targetAttribute' => ['LEVELPOSIT_ID' => 'LEVELPOSIT_ID']],
         ];
     }
@@ -93,13 +92,13 @@ class Tblofficials extends \yii\db\ActiveRecord
         return $this->hasOne(Tblparty::className(), ['PARTY_ID' => 'PARTY_ID']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLEVELPLACE()
-    {
-        return $this->hasOne(Tbllevelbyplace::className(), ['LEVELPLACE_ID' => 'LEVELPLACE_ID']);
-    }
+    // /**
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getLEVELPLACE()
+    // {
+    //     return $this->hasOne(Tbllevelbyplace::className(), ['LEVELPLACE_ID' => 'LEVELPLACE_ID']);
+    // }
 
     /**
      * @return \yii\db\ActiveQuery

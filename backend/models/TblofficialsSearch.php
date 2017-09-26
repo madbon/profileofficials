@@ -61,7 +61,6 @@ class TblofficialsSearch extends Tblofficials
         $query->andFilterWhere([
             'OFFICIAL_ID' => $this->OFFICIAL_ID,
             'FIRSTNAME' => $this->FIRSTNAME,
-            'LEVELPLACE_ID' => $this->LEVELPLACE_ID,
             'LEVELPOSIT_ID' => $this->LEVELPOSIT_ID,
             'POSIT_ID' => $this->POSIT_ID,
             'PARTY_ID' => $this->PARTY_ID,

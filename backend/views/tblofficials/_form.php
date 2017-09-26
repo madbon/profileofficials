@@ -8,6 +8,7 @@ use backend\models\Tblregion;
 use backend\models\Tblprovince;
 use backend\models\tblcitymun;
 use yii\helpers\ArrayHelper;
+use kartik\date\DatePicker;
 
 
 
@@ -26,11 +27,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'LASTNAME')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'BIRTHDATE')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'AGE')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'LEVELPLACE_ID')->dropDownList($levelbyplace) ?>
+    <?= $form->field($model, 'BIRTHDATE')->textInput(['maxlength' => true]) ?>    
 
     <?= $form->field($model, 'LEVELPOSIT_ID')->dropDownList(
                             ArrayHelper::map($querylevelbyposition, 'LEVELPOSIT_ID','LEVELPOSIT_NAME'),

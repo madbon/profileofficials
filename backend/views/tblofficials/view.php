@@ -34,7 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'LASTNAME',
             'BIRTHDATE',
             'AGE',
-            'lEVELPLACE.LEVELPLACE_NAME',
             'lEVELPOSIT.LEVELPOSIT_NAME',
             'pOSIT.POSIT_NAME',
             'pARTY.PARTY_NAME',
