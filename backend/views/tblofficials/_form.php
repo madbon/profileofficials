@@ -8,7 +8,8 @@ use backend\models\Tblregion;
 use backend\models\Tblprovince;
 use backend\models\tblcitymun;
 use yii\helpers\ArrayHelper;
-use kartik\date\DatePicker;
+// use kartik\date\DatePicker;
+use dosamigos\datepicker\DatePicker;
 
 
 
@@ -27,7 +28,17 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'LASTNAME')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'BIRTHDATE')->textInput(['maxlength' => true]) ?>    
+    <?= $form->field($model, 'BIRTHDATE')->widget(
+    DatePicker::className(), [
+        // inline too, not bad
+         'inline' => false, 
+         // modify template for custom rendering
+        // 'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-m-d'
+        ]
+]);?>  
 
     <?= $form->field($model, 'LEVELPOSIT_ID')->dropDownList(
                             ArrayHelper::map($querylevelbyposition, 'LEVELPOSIT_ID','LEVELPOSIT_NAME'),

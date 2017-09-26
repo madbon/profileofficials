@@ -18,8 +18,8 @@ class TblofficialsSearch extends Tblofficials
     public function rules()
     {
         return [
-            [['OFFICIAL_ID', 'FIRSTNAME', 'LEVELPLACE_ID', 'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'integer'],
-            [['MIDDLENAME', 'LASTNAME', 'BIRTHDATE', 'AGE', 'DATECREATED'], 'safe'],
+            [['OFFICIAL_ID', 'FIRSTNAME',  'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'integer'],
+            [['MIDDLENAME', 'LASTNAME', 'BIRTHDATE', 'DATECREATED','age'], 'safe'],
         ];
     }
 

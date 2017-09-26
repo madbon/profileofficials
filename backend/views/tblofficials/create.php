@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Tblofficials */
 
-$this->title = 'Create Tblofficials';
-$this->params['breadcrumbs'][] = ['label' => 'Tblofficials', 'url' => ['index']];
+$this->title = 'Create Local Officials';
+$this->params['breadcrumbs'][] = ['label' => 'Local Officials', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tblofficials-create">

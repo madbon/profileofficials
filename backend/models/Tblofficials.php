@@ -32,6 +32,9 @@ class Tblofficials extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $age;
+
     public static function tableName()
     {
         return 'tblofficials';
@@ -45,7 +48,7 @@ class Tblofficials extends \yii\db\ActiveRecord
         return [
             [['FIRSTNAME', 'MIDDLENAME', 'LASTNAME', 'BIRTHDATE',  'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'required'],
             [[ 'LEVELPOSIT_ID', 'POSIT_ID', 'PARTY_ID', 'REGION_C', 'PROVINCE_C', 'CITYMUN_C'], 'integer'],
-            [['DATECREATED'], 'safe'],
+            [['DATECREATED','age'], 'safe'],
             [['FIRSTNAME', 'MIDDLENAME', 'LASTNAME', 'BIRTHDATE', 'AGE'], 'string', 'max' => 50],
             [['POSIT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Tblpositions::className(), 'targetAttribute' => ['POSIT_ID' => 'POSIT_ID']],
             [['PARTY_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Tblparty::className(), 'targetAttribute' => ['PARTY_ID' => 'PARTY_ID']],

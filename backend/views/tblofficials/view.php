@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Tblofficials */
 
 $this->title = $model->OFFICIAL_ID;
-$this->params['breadcrumbs'][] = ['label' => 'Tblofficials', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Local Officials', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tblofficials-view">

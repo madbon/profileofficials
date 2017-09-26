@@ -17,7 +17,7 @@ use yii\helpers\BaseStringHelper;
 /* @var $searchModel backend\models\TblofficialsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tblofficials';
+$this->title = 'Local Officials';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tblofficials-index">
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Tblofficials', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Local Officials', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -41,6 +41,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'MIDDLENAME',
             'LASTNAME',
             'BIRTHDATE',
+              [
+              'label' => 'Age',
+              'attribute' => 'age',
+              'value' => function($model){
+                $age = date('m') - date('m',strtotime($model->BIRTHDATE));
+                if($age > 0){
+                    $age = date('Y') - date('Y',strtotime($model->BIRTHDATE));
+                }
+                else{
+                    if($age < 0){
+                        $age = date('Y') - date('Y',strtotime($model->BIRTHDATE)) - 1;
+                    }
+                    else{
+                        $age = date('d') - date('d',strtotime($model->BIRTHDATE));
+                        if($age < 0){
+                            $age = date('Y') - date('Y',strtotime($model->BIRTHDATE)) - 1;
+                        }
+                        else{
+                            $age = date('Y') - date('Y',strtotime($model->BIRTHDATE));    
+                        }
+                    }
+                }
+                return $age;
+              },
+            ],
             // 'AGE',
             [
                 'attribute' => 'LEVELPOSIT_ID',
@@ -77,126 +102,10 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 <?php Pjax::end(); ?></div>
 
-
-
-<?php
-
-$below30Gov = $queryCountGovernor;
-$below30CityMay = $queryCountCityMayor;
-$below30MunMay = $queryCountMunMayor;
-
-$betGov = $govResultFloatBet;
-$betCityMay = $citymayorResultFloatBet;
-$betMunMay = $munmayorResultFloatBet;
-
-$aboveGov = $govResultFloatAbove;
-$aboveCityMay = $citymayorResultFloatAbove;
-$aboveMunMay = $munmayorResultFloatAbove;
-
-
-
-echo Highcharts::widget([
-    // 'contentOptions'=>[
-        // 'chart'=>
-        // [
-        //     'type'=>'bar'
-        // ],
-        'options' => [
-            'chart'=>[
-            'type'=>'bar'
-            ],
-          'title' => ['text' => 'Statistics of Govenors and Mayors by Age'],
-          'xAxis' => [
-             'categories' => ['Below 30', 'Between 30 to 50', 'Above 50']
-          ],
-          'yAxis' => [
-             'title' => ['text' => 'Fruit eaten']
-          ],
-          'series' => [
-             ['name' => 'Governors', 'data' => [$below30Gov , $betGov, $aboveGov]],
-             ['name' => 'City Mayors', 'data' => [$below30CityMay, $betCityMay, $aboveCityMay]],
-             ['name' => 'Municipal Mayors', 'data' => [$below30MunMay, $betMunMay, $aboveMunMay]]
-          ]
-
-
-       ]
-
-    // ],
-
-   
-]);
-?>
  <!-- http://www.yiiframework.com/forum/index.php/topic/54011-dynamic-data-of-column-with-drilldown-yii-highcharts -->
 <?php
-$level1 = array();
-$level1[] = array('name' => 'Firefox', 'y' =>12,);
-$level1[] = array('name' => 'Internet Explorer', 'y' =>5);
-$level1[] = array('name' => 'Safari', 'y' =>4);
-$level1[] = array('name' => 'Chrome', 'y' =>8);
-$level1[] = array('name' => 'Opera', 'y' =>9);
 
-echo Highcharts::widget([
-    // 'contentOptions'=>[
-        // 'chart'=>
-        // [
-        //     'type'=>'bar'
-        // ],
-        'options' => [
-            'chart'=>[
-            'plotBackgroundColor'=> null,
-            'plotBorderWidth'=> null,
-            'plotShadow'=> false,
-            'type'=> 'pie'
-            ],
-
-            'tooltip' =>[
-                 'pointFormat'=> '{series.name}: <b>{point.percentage:.1f}%</b>'
-            ],
-            'plotOptions' => [ // plotoption-start
-                'pie' => [
-                    'allowPointSelect'=> true,
-                    'cursor'=> 'pointer',
-                    'dataLabels' => [
-                        'enabled'=> true,
-                        'format'=> '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        'style' =>[
-                            'color'=>  'black'
-                        ]
-                    ]
-                ]
-            ], // plotoption-end
-          'title' => ['text' => 'Statistics of Mayors by Party Affiliation'],
-          
-         
-          'series' => [
-            [ // {
-                'type' => 'pie',
-                'name' => 'Elements',
-                'data' => $level1,
-
-                    // ['name' => 'Firefox', 'y' => 20],
-                    // ['name' => 'IE', 'y' => 26.8],
-                    // ['name' => 'Safari', 'y' => 8.5],
-                    // ['name' => 'Opera', 'y' =>  6.2],
-                    // ['name' => 'Others', 'y' => 0.7]
-                  
-                
-            ] // }
-
-
-       ]]
-
-    // ],
-
-   
-]);
-?>
-
-
-
-<?php
-
-// print_r($govResultFloatBet);
+// print_r($dataPie);
 
 
 ?>
