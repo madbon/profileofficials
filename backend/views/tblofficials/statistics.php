@@ -112,7 +112,7 @@ echo Highcharts::widget([
                     ]
                 ]
             ], // plotoption-end
-          'title' => ['text' => 'Statistics of Mayors by Party Affiliation'],
+          'title' => ['text' => 'Statistics of City Mayors by Party Affiliation'],
           
          
           'series' => [

@@ -10,8 +10,11 @@ use backend\models\Tblregion;
 use backend\models\Tblprovince;
 use backend\models\Tblcitymun;
 use backend\models\Tbllevelbyplace;
+use backend\models\Tbllevelbyposition;
+use backend\models\Tblpositions;
 use miloschuman\highcharts\Highcharts;
 use yii\helpers\BaseStringHelper;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\TblofficialsSearch */
@@ -70,30 +73,85 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'LEVELPOSIT_ID',
                 'value' => 'lEVELPOSIT.LEVELPOSIT_NAME',
+                'filter'=>ArrayHelper::map(Tbllevelbyposition::find()->asArray()->all(), 'LEVELPOSIT_ID', 'LEVELPOSIT_NAME'),
             ],
             [
                 'attribute' => 'POSIT_ID',
                 'value' => 'pOSIT.POSIT_NAME',
+                'filter'=>ArrayHelper::map(Tblpositions::find()->asArray()->all(), 'POSIT_ID', 'POSIT_NAME'),
             ],
+            // [
+            //     'attribute' => 'PARTY_ID',
+            //     'value' => 'pARTY.PARTY_NAME',
+            //     'filter'=>ArrayHelper::map(Tblparty::find()->asArray()->all(), 'PARTY_ID', 'PARTY_NAME'),
+            // ],
             [
                 'attribute' => 'PARTY_ID',
                 'value' => 'pARTY.PARTY_NAME',
-                'filter'=>ArrayHelper::map(Tblparty::find()->asArray()->all(), 'PARTY_ID', 'PARTY_NAME'),
+                'filter'=>Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'PARTY_ID',
+                    'data' =>ArrayHelper::map(Tblparty::find()->asArray()->all(), 'PARTY_ID', 'PARTY_NAME'),
+                    'options' => ['placeholder' => 'Select a political party ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ])
             ],
+            // [
+            //     'attribute' => 'REGION_C',
+            //     'value' => 'rEGION.REGION_M',
+            //     'filter'=>ArrayHelper::map(Tblregion::find()->asArray()->all(), 'REGION_C', 'REGION_M'),
+            // ],
             [
                 'attribute' => 'REGION_C',
                 'value' => 'rEGION.REGION_M',
-                'filter'=>ArrayHelper::map(Tblregion::find()->asArray()->all(), 'REGION_C', 'REGION_M'),
+                'filter'=>Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'REGION_C',
+                    'data' => ArrayHelper::map(Tblregion::find()->asArray()->all(), 'REGION_C', 'REGION_M'),
+                    'options' => ['placeholder' => 'Select a region ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ])
             ],
+            // [
+            //     'attribute' => 'PROVINCE_C',
+            //     'value' => 'pROVINCE.LGU_M',
+            //     'filter'=>ArrayHelper::map(Tblprovince::find()->asArray()->all(), 'PROVINCE_C', 'LGU_M'),
+            // ],
             [
                 'attribute' => 'PROVINCE_C',
                 'value' => 'pROVINCE.LGU_M',
-                'filter'=>ArrayHelper::map(Tblprovince::find()->asArray()->all(), 'PROVINCE_C', 'LGU_M'),
+                'filter'=>Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'PROVINCE_C',
+                    'data' => ArrayHelper::map(Tblprovince::find()->asArray()->all(), 'PROVINCE_C', 'LGU_M'),
+                    'options' => ['placeholder' => 'Select a province ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ])
             ],
-             [
+            
+            //  [
+            //     'attribute' => 'CITYMUN_C',
+            //     'value' => 'cITYMUN.LGU_M',
+            //     'filter'=>ArrayHelper::map(Tblcitymun::find()->asArray()->all(), 'CITYMUN_C', 'LGU_M'),
+            // ],
+            [
                 'attribute' => 'CITYMUN_C',
                 'value' => 'cITYMUN.LGU_M',
-                'filter'=>ArrayHelper::map(Tblcitymun::find()->asArray()->all(), 'CITYMUN_C', 'LGU_M'),
+                'filter'=>Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'CITYMUN_C',
+                    'data' => ArrayHelper::map(Tblcitymun::find()->asArray()->all(), 'CITYMUN_C', 'LGU_M'),
+                    'options' => ['placeholder' => 'Select a city/municipality ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ])
             ],
             // 'DATECREATED',
 

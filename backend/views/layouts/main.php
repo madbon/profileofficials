@@ -33,6 +33,36 @@ AppAsset::register($this);
     {
         display: none;
     } 
+    ul#my_submenu
+    {
+        padding-top: 100px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        padding-bottom: 20px;
+
+    }
+     ul#my_submenu li
+    {
+        display: inline-block;
+        padding-left: 70px; 
+    }
+     ul#my_submenu li.first
+    {
+        display: inline-block;
+        padding-left: 0; 
+        margin-left: 0;
+    }
+    ul#my_submenu li a
+    {
+        background-color: black;
+        padding-right:10px;
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 20px;
+    }
 </style>
 </head>
 <body>
@@ -69,51 +99,48 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container-fluid" id="mycontainer-fluid">
-       
+    <ul id="my_submenu">
+        <li class="first"><a href="<?= Url::to('index.php?r=tblofficials%2Findex')?>"><i class="glyphicon glyphicon-list-alt"></i> Master List of Local Officials</li>
+        <li><a href="<?= Url::to('index.php?r=tblofficials%2Fstatistics')?>"><i class="fa fa-bar-chart-o fa-fw"></i> Statistics</a></li>
+    </ul>
+
+    <!-- <div class="container-fluid" id="mycontainer-fluid"> -->
+       <!-- 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                       <!--  <li class="sidebar-search">
-                            
-                        </li> -->
                         <li>
                             <a href="<?= Url::to('index.php?r=tblofficials%2Findex')?>"><i class="glyphicon glyphicon-list-alt"></i> Master List of Local Officials</a>
                         </li>
                         <li>
                             <a href="<?= Url::to('index.php?r=tblofficials%2Fstatistics')?>"><i class="fa fa-bar-chart-o fa-fw"></i> Statistics</a>
-                            <!-- /.nav-second-level -->
+                           
                         </li>
-                     
-                       
-                    
-                     
                     </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
+                </div>               
+            </div> -->
+            
 
         <!-- Page Content -->
-        <div id="page-wrapper">
+        <!-- <div id="page-wrapper"> -->
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
+                <!-- <div class="row"> -->
+                    <!-- <div class="col-lg-12"> -->
                         
                          <?= Breadcrumbs::widget([
                                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                             ]) ?>
                             <?= Alert::widget() ?>
                          <?= $content ?>
-                    </div>
+                    <!-- </div> -->
                     <!-- /.col-lg-12 -->
-                </div>
+                <!-- </div> -->
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-        </div>
+        <!-- </div> -->
         <!-- /#page-wrapper -->
-    </div>
+    <!-- </div> -->
 </div>
 
 <footer class="footer">

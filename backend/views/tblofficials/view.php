@@ -33,7 +33,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'MIDDLENAME',
             'LASTNAME',
             'BIRTHDATE',
-            'AGE',
+             [
+              'label' => 'Age',
+              'attribute' => 'age',
+              'value' => function($model){
+                $age = date('m') - date('m',strtotime($model->BIRTHDATE));
+                if($age > 0){
+                    $age = date('Y') - date('Y',strtotime($model->BIRTHDATE));
+                }
+                else{
+                    if($age < 0){
+                        $age = date('Y') - date('Y',strtotime($model->BIRTHDATE)) - 1;
+                    }
+                    else{
+                        $age = date('d') - date('d',strtotime($model->BIRTHDATE));
+                        if($age < 0){
+                            $age = date('Y') - date('Y',strtotime($model->BIRTHDATE)) - 1;
+                        }
+                        else{
+                            $age = date('Y') - date('Y',strtotime($model->BIRTHDATE));    
+                        }
+                    }
+                }
+                return $age;
+              },
+            ],
             'lEVELPOSIT.LEVELPOSIT_NAME',
             'pOSIT.POSIT_NAME',
             'pARTY.PARTY_NAME',

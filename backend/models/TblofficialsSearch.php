@@ -68,12 +68,13 @@ class TblofficialsSearch extends Tblofficials
             'PROVINCE_C' => $this->PROVINCE_C,
             'CITYMUN_C' => $this->CITYMUN_C,
             'DATECREATED' => $this->DATECREATED,
+            'age' => $this->age,
         ]);
 
         $query->andFilterWhere(['like', 'MIDDLENAME', $this->MIDDLENAME])
             ->andFilterWhere(['like', 'LASTNAME', $this->LASTNAME])
             ->andFilterWhere(['like', 'BIRTHDATE', $this->BIRTHDATE])
-            ->andFilterWhere(['like', 'AGE', $this->AGE]);
+            ->andFilterWhere(['like', 'age', $this->age]);
 
         return $dataProvider;
     }
